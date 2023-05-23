@@ -84,19 +84,19 @@ void Messanger::savedata()
 
 int Messanger::SendingMessage()
 {
-	// ƒT[ƒo[‚ÉÚ‘±‚·‚é‚½‚ß‚Ìî•ñ‚Ìİ’è
+	// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«æ¥ç¶šã™ã‚‹ãŸã‚ã®æƒ…å ±ã®è¨­å®š
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(PORT);
 	addr.sin_addr.s_addr = inet_addr("192.168.2.101");
 
-	// ƒ\ƒPƒbƒg‚Ìì¬
+	// ã‚½ã‚±ãƒƒãƒˆã®ä½œæˆ
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (sock == INVALID_SOCKET) {
 		cout << "socket failed: " << WSAGetLastError();
 		WSACleanup();
 	}
 
-	// ƒT[ƒo[‚ÉÚ‘±
+	// ã‚µãƒ¼ãƒãƒ¼ã«æ¥ç¶š
 	iResult = connect(sock, (SOCKADDR*)&addr, sizeof(addr));
 	if (iResult == SOCKET_ERROR) {
 		cout << "connect failed: " << WSAGetLastError();
@@ -104,12 +104,12 @@ int Messanger::SendingMessage()
 		WSACleanup();
 	}
 
-	// ƒƒbƒZ[ƒW‚Ì“ü—Í
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å…¥åŠ›
 	cout << "Enter message: ";
 	string message;
 	getline(cin, message);
 
-	// ƒƒbƒZ[ƒW‚Ì‘—M
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®é€ä¿¡
 	iResult = send(sock, message.c_str(), message.length(), 0);
 	if (iResult == SOCKET_ERROR) {
 		cout << "send failed: " << WSAGetLastError();
@@ -117,7 +117,7 @@ int Messanger::SendingMessage()
 		WSACleanup();
 	}
 
-	// ƒ\ƒPƒbƒg‚ÌƒNƒ[ƒY
+	// ã‚½ã‚±ãƒƒãƒˆã®ã‚¯ãƒ­ãƒ¼ã‚º
 	closesocket(sock);
 
 
@@ -127,7 +127,7 @@ int Messanger::SendingMessage()
 void Messanger::reception()
 {
 	
-	//ƒ\ƒPƒbƒg‚ÌƒŠƒXƒjƒ“ƒO
+	//ã‚½ã‚±ãƒƒãƒˆã®ãƒªã‚¹ãƒ‹ãƒ³ã‚°
 	iResult = listen(ListenSocket, SOMAXCONN);
 	if (iResult == SOCKET_ERROR) {
 		cout << "listen failed:" << WSAGetLastError();
@@ -135,14 +135,14 @@ void Messanger::reception()
 		WSACleanup();
 	}
 
-	//ƒNƒ‰ƒCƒAƒ“ƒg‚ÌÚ‘±‘Ò‚¿
+	//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®æ¥ç¶šå¾…ã¡
 	SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
 	if (ClientSocket == INVALID_SOCKET) {
 		cout << "accept failed: " << WSAGetLastError();
 		closesocket(ListenSocket);
 		WSACleanup();
 	}
-	//óMˆ—
+	//å—ä¿¡å‡¦ç†
 	char recvbuf[1024];
 	int recvbuflen = 1024;
 	Check_received = recv(ClientSocket, recvbuf, recvbuflen, 0);
@@ -173,18 +173,18 @@ int main()
 	{
 		cout << "WSAStartup failed:" << iResult;
 	}
-	//ƒ\ƒPƒbƒg‚Ìì¬
+	//ã‚½ã‚±ãƒƒãƒˆã®ä½œæˆ
 	ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (ListenSocket == INVALID_SOCKET) {
 		cout << "socket filed: " << WSAGetLastError();
 		WSACleanup();
 	}
 
-	//ƒ\ƒPƒbƒg‚ÌƒoƒCƒ“ƒh
+	//ã‚½ã‚±ãƒƒãƒˆã®ãƒã‚¤ãƒ³ãƒ‰
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(10000);
-	//addr.sin_addr.s_addr = inet_addr("192.168.2.101");  // ƒRƒƒ“ƒgƒAƒEƒg
+	//addr.sin_addr.s_addr = inet_addr("192.168.2.101");  // ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
 	addr.sin_addr.s_addr = INADDR_ANY;
 	iResult = bind(ListenSocket, (SOCKADDR*)&addr, sizeof(addr));
 	
